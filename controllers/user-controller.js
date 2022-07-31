@@ -46,26 +46,26 @@ const userController = {
     //need for this request to be fulfilled. If we can't find a pizza with 
     //that _id, we can check whether the returning value is empty and send 
     //a 404 status back to alert users that it doesn't exist.
-    // getPizzaById({ params }, res) {
-    //     Pizza.findOne({ _id: params.id })
-    //         .populate({
-    //             path: 'comments',
-    //             select: '-__v'
-    //         })
-    //         .select('-__v')
-    //         .then(dbPizzaData => {
-    //             // If no pizza is found, send 404
-    //             if (!dbPizzaData) {
-    //                 res.status(404).json({ message: 'No pizza found with this id!' });
-    //                 return;
-    //             }
-    //             res.json(dbPizzaData);
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //             res.status(400).json(err);
-    //         });
-    // },
+    getUserById({ params }, res) {
+        User.findOne({ _id: params.id })
+            .populate({
+                path: 'thoughts',
+                select: '-__v'
+            })
+            .select('-__v')
+            .then(dbUserData => {
+                // If no User is found, send 404
+                if (!dbUserData) {
+                    res.status(404).json({ message: 'No User found with this id!' });
+                    return;
+                }
+                res.json(dbUserData);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(400).json(err);
+            });
+    },
     // createPizza
     //With this .createPizza() method, we destructure the body out of the 
     //Express.js req object because we don't need to interface with any of 
@@ -92,37 +92,37 @@ const userController = {
     // //create new data. This means that a user can create a pizza, but then update
     // // that pizza with totally different data and not have it validated. 
     // //Let's go ahead and fix that with a simple option setting.
-    // updatePizza({ params, body }, res) {
-    //     //Notice the new option in place, runValidators: true? We need to
-    //     // include this explicit setting when updating data so that it knows 
-    //     //to validate any new information.
-    //     Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
-    //         .then(dbPizzaData => {
-    //             if (!dbPizzaData) {
-    //                 res.status(404).json({ message: 'No pizza found with this id!' });
-    //                 return;
-    //             }
-    //             res.json(dbPizzaData);
-    //         })
-    //         .catch(err => res.status(400).json(err));
-    // },
+    updateUser({ params, body }, res) {
+        //Notice the new option in place, runValidators: true? We need to
+        // include this explicit setting when updating data so that it knows 
+        //to validate any new information.
+        User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: 'No User found with this id!' });
+                    return;
+                }
+                res.json(dbUserData);
+            })
+            .catch(err => res.status(400).json(err));
+    },
     // // delete pizza
     // //we use the Mongoose .findOneAndDelete() method, which will find the 
     // //document to be returned and also delete it from the database. Like 
     // //ith updating, we could alternatively use .deleteOne() or 
     // //.deleteMany(), but we're using the .findOneAndDelete() method because 
     // //it provides a little more data in case the client wants it.
-    // deletePizza({ params }, res) {
-    //     Pizza.findOneAndDelete({ _id: params.id })
-    //         .then(dbPizzaData => {
-    //             if (!dbPizzaData) {
-    //                 res.status(404).json({ message: 'No pizza found with this id!' });
-    //                 return;
-    //             }
-    //             res.json(dbPizzaData);
-    //         })
-    //         .catch(err => res.status(400).json(err));
-    // }
+    deleteUser({ params }, res) {
+        User.findOneAndDelete({ _id: params.id })
+            .then(dbUserData => {
+                if (!dbUserData) {
+                    res.status(404).json({ message: 'No User found with this id!' });
+                    return;
+                }
+                res.json(dbUserData);
+            })
+            .catch(err => res.status(400).json(err));
+    }
 }
 
 module.exports = userController;
