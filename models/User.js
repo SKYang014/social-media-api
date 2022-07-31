@@ -33,7 +33,15 @@ const UserSchema = new Schema({
     //associate thuoghts with user
     // the userchema to have the replies field populated with 
     //an array of data that adheres to the thoughtschema definition
-    thoughts: [ThoughtSchema],
+    thoughts: [{
+        //we need to tell Mongoose to expect an ObjectId and to tell it 
+        //that its data comes from the Comment model. We'll do this by 
+        //updating the comments field of the model
+        type: Schema.Types.ObjectId,
+        //The ref property is especially important because it tells 
+        //the Pizza model which documents to search to find the right comments.
+        ref: 'Thought'
+    }],
     friends: [FriendSchema]
 },
     {
