@@ -1,6 +1,7 @@
 //We could import the entire mongoose library, but we only need to worry 
 //about the Schema constructor and model function, so we'll just import them
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
+const dateFormat = require('../utils/dateFormat');
 
 const ReactionSchema = new Schema(
     {
@@ -80,7 +81,7 @@ ThoughtSchema.virtual('reactionCount').get(function () {
     //passes the accumulating total and the current value of reaction into the 
     //function, with the return of the function revising the total for the 
     //next iteration through the array.
-    return this.reactions.reduce((total, reaction) => total + reaction.replies.length + 1, 0);
+    return this.reactions.length;
 });
 // create the Pizza model using the ThoughtSchema
 const Thoughts = model('Thought', ThoughtSchema);

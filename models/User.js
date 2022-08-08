@@ -1,22 +1,23 @@
 const { Schema, model, Types } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
-const FriendSchema = new Schema(
-    {
-        // set custom id to avoid confusion with parent comment _id
-        //Here we'll need a unique identifier instead of the default _id 
-        //field that is created, so we'll add a custom replyId field. 
-        friendId: {
-            type: Schema.Types.ObjectId,
-            default: () => new Types.ObjectId()
-        },
-    },
-    {
-        toJSON: {
-            getters: true
-        }
-    }
-);
+// const FriendSchema = new Schema(
+//     {
+//         // set custom id to avoid confusion with parent comment _id
+//         //Here we'll need a unique identifier instead of the default _id 
+//         //field that is created, so we'll add a custom replyId field. 
+//         friendId: {
+//             // type: Schema.Types.ObjectId,
+//             // default: () => new Types.ObjectId()
+
+//         },
+//     },
+//     {
+//         toJSON: {
+//             getters: true
+//         }
+//     }
+// );
 
 const UserSchema = new Schema({
     username: {
@@ -42,7 +43,10 @@ const UserSchema = new Schema({
         //the Pizza model which documents to search to find the right comments.
         ref: 'Thought'
     }],
-    friends: [FriendSchema]
+    friends: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }]
 },
     {
         toJSON: {
